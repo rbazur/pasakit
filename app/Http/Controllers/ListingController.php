@@ -9,7 +9,8 @@ use Illuminate\Validation\Rule;
 class ListingController extends Controller
 {
     //Show all Listings
-    public function index() {
+    public function index()
+    {
         // dd(request());
         // dd(request()->tag);
         // dd(request('tag'));
@@ -21,19 +22,22 @@ class ListingController extends Controller
     }
 
     //Show single listing
-    public function show(Listing $listing) {
-        return view('listings.show' , [
+    public function show(Listing $listing)
+    {
+        return view('listings.show', [
             'listing' => $listing
         ]);
     }
 
     //Show Create Form
-    public function create() {
+    public function create()
+    {
         return view('listings.create');
     }
 
     //Store Listing Data
-    public function store(Request $request){
+    public function store(Request $request)
+    {
         // dd($request->all());
         // dd($request->file('logo'));
         $formFields = $request->validate([
@@ -45,13 +49,19 @@ class ListingController extends Controller
             'tags' => 'required',
             'description' => 'required',
         ]);
-        if($request->hasFile('logo')) {
+        if ($request->hasFile('logo')) {
             $formFields['logo'] = $request->file('logo')->store('logos', 'public');
         }
 
         Listing::create($formFields);
 
         return redirect('/')->with('message', 'Job Posting created successfully!');
+    }
 
+    //SHow Edit Form
+    public function edit(Listing $listing)
+    {
+        dd($listing);
+        return view('listings.edit', ['listing' => $listing]);
     }
 }
